@@ -1,6 +1,7 @@
 #include "wisemoleserver.h"
 #include <QSettings>
 #include <QFile>
+#include <QDir>
 
 WiseMoleServer::WiseMoleServer()
 {
@@ -17,6 +18,7 @@ void WiseMoleServer::run()
     qDebug() << "Сервер игры Мудрый крот";
     qDebug() << "Версия " << version;
 
+    // Загрузим настройки
     unsigned int load_sett_res = loadSettings();
     if(load_sett_res > 0)
     {
@@ -31,6 +33,16 @@ void WiseMoleServer::run()
 
         qWarning() << "Проверьте настройки и перезапустите приложение";
         exit(EXIT_FAILURE);
+    }
+
+    // Проверим папку с уровнями и создадим ее при отсутсвии
+    if(!QDir(levels_path).exists())
+    {
+        if(!QDir().mkdir(levels_path))
+        {
+            qCritical() << "Ошибка создания каталога " << levels_path;
+            exit(EXIT_FAILURE);
+        }
     }
 
     qDebug() << "Сервер доступен с IP " << host
