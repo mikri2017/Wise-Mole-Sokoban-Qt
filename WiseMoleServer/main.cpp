@@ -1,10 +1,12 @@
 #include <QCoreApplication>
 #include <QLocale>
 #include <QTranslator>
+#include "wisemoleserver.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    WiseMoleServer wms;
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -15,6 +17,8 @@ int main(int argc, char *argv[])
             break;
         }
     }
+
+    wms.run();
 
     return a.exec();
 }
