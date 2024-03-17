@@ -3,6 +3,7 @@
 
 #include <QCoreApplication>
 #include <QtNetwork/QTcpServer>
+#include <QtHttpServer/QHttpServer>
 
 class WiseMoleServer
 {
@@ -16,6 +17,7 @@ private:
     QString host = "0.0.0.0";
     int port = 0;
     QString settings_path = "settings.ini";
+    QHttpServer srv;
 
     unsigned int loadSettings();
     void genSettings();

@@ -35,6 +35,49 @@ void WiseMoleServer::run()
         exit(EXIT_FAILURE);
     }
 
+    srv.route("/", [] () {
+        QString info_msg = "<html>"
+                "<head>"
+                "<meta charset=\"utf-8\"/>"
+                "<title>Сервер игры Wise Mole Qt</title>"
+                "</head>"
+                "<body>"
+                "<p>"
+                    "Данный сервер хранит уровни к игре, для их получения"
+                    " и игры воспользуйтесь клиентом Wise Mole Qt"
+                "</p>"
+                "</body>"
+            "</html>";
+        return info_msg;
+    });
+
+    srv.route("/reg_user", [] () {
+        QString info_msg = "Регистрация пользователя";
+        return info_msg;
+    });
+
+    srv.route("/auth_user", [] () {
+        QString info_msg = "Авторизация пользователя с выдачей токена";
+        return info_msg;
+    });
+
+    srv.route("/list_levels", [] () {
+        QString info_msg = "Список возможных уровней в JSON";
+        return info_msg;
+    });
+
+    srv.route("/get_level", [] () {
+        QString info_msg = "Получить карту уровня в JSON";
+        return info_msg;
+    });
+
+    srv.route("/save_level", [] () {
+        QString info_msg = "Сохранить уровень на сервере в JSON (нужен токен!)";
+        return info_msg;
+    });
+
+    srv.listen(QHostAddress(host), port);
+
     qDebug() << "Сервер доступен с IP " << host
              << ", занимает порт " << port;
 }

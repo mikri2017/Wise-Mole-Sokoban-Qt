@@ -14,3 +14,5 @@
 ### Используемые технологии
 * qtcreator
 * qt6-base-dev
+* qt6-httpserver-dev
+* qt6-websockets-dev

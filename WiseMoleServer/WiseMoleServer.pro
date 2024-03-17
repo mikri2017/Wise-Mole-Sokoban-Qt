@@ -1,4 +1,5 @@
 QT -= gui
+QT += httpserver
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
