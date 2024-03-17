@@ -16,3 +16,4 @@
 * qt6-base-dev
 * qt6-httpserver-dev
 * qt6-websockets-dev
+* libqt6sql6-mysql
