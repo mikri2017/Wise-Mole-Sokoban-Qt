@@ -2,6 +2,7 @@
 #include <QSettings>
 #include <QFile>
 #include <QDir>
+#include <QJsonObject>
 
 WiseMoleServer::WiseMoleServer()
 {
@@ -51,29 +52,87 @@ void WiseMoleServer::run()
         return info_msg;
     });
 
-    srv.route("/reg_user", [] () {
-        QString info_msg = "Регистрация пользователя";
-        return info_msg;
+    srv.route("/reg_user", QHttpServerRequest::Method::Post, [] (const QHttpServerRequest &req) {
+        // Расшифровка полученных параметров запроса
+        QUrlQuery uq = QUrlQuery(req.body());
+
+        QJsonObject j_resp;
+        j_resp.insert("res", "ok");
+
+        if(uq.hasQueryItem("login") && uq.hasQueryItem("password")) {
+            QString info_msg = "Запрошена регистрация пользователя " + uq.queryItemValue("login") \
+                + " с паролем " + uq.queryItemValue("password");
+            j_resp.insert("msg", info_msg);
+        } else {
+            QString err_msg = "Отcутствуют необходимые параметры!";
+            j_resp.insert("msg", err_msg);
+        }
+
+        return j_resp;
     });
 
-    srv.route("/auth_user", [] () {
-        QString info_msg = "Авторизация пользователя с выдачей токена";
-        return info_msg;
+    srv.route("/auth_user", QHttpServerRequest::Method::Post, [] (const QHttpServerRequest &req) {
+        // Расшифровка полученных параметров запроса
+        QUrlQuery uq = QUrlQuery(req.body());
+
+        QJsonObject j_resp;
+        j_resp.insert("res", "ok");
+
+        if(uq.hasQueryItem("login") && uq.hasQueryItem("password")) {
+            QString info_msg = "Запрошена авторизация пользователя " + uq.queryItemValue("login") \
+                + " с паролем " + uq.queryItemValue("password");
+
+            j_resp.insert("msg", info_msg);
+        } else {
+            QString err_msg = "Отcутствуют необходимые параметры!";
+            j_resp.insert("msg", err_msg);
+        }
+
+        return j_resp;
     });
 
-    srv.route("/list_levels", [] () {
-        QString info_msg = "Список возможных уровней в JSON";
-        return info_msg;
+    srv.route("/list_levels", QHttpServerRequest::Method::Get, [] () {
+        QJsonObject j_resp;
+        j_resp.insert("res", "ok");
+        j_resp.insert("msg", "Список возможных уровней в JSON");
+        return j_resp;
     });
 
-    srv.route("/get_level", [] () {
-        QString info_msg = "Получить карту уровня в JSON";
-        return info_msg;
+    srv.route("/get_level", QHttpServerRequest::Method::Get, [] (const QHttpServerRequest &req) {
+        // Расшифровка полученных парамеров запроса
+        QUrlQuery uq = QUrlQuery(req.body());
+
+        QJsonObject j_resp;
+        j_resp.insert("res", "ok");
+
+        if(uq.hasQueryItem("lvl_id")) {
+            QString info_msg = "Выгрузка уровня ID" + uq.queryItemValue("lvl_id");
+            j_resp.insert("msg", info_msg);
+        } else {
+            QString err_msg = "Отcутствуют необходимые параметры!";
+            j_resp.insert("msg", err_msg);
+        }
+
+        return j_resp;
     });
 
-    srv.route("/save_level", [] () {
-        QString info_msg = "Сохранить уровень на сервере в JSON (нужен токен!)";
-        return info_msg;
+    srv.route("/save_level", QHttpServerRequest::Method::Post, [] (const QHttpServerRequest &req) {
+        // Расшифровка полученных парамеров запроса
+        QUrlQuery uq = QUrlQuery(req.body());
+
+        QJsonObject j_resp;
+        j_resp.insert("res", "ok");
+
+        if(uq.hasQueryItem("token") && uq.hasQueryItem("lvl_name") && uq.hasQueryItem("lvl_data")) {
+            QString info_msg = "Передача на сервер уровня " + uq.queryItemValue("lvl_name") \
+                + " по токену пользователя " + uq.queryItemValue("token");
+            j_resp.insert("msg", info_msg);
+        } else {
+            QString err_msg = "Отcутствуют необходимые параметры!";
+            j_resp.insert("msg", err_msg);
+        }
+
+        return j_resp;
     });
 
     srv.listen(QHostAddress(host), port);
