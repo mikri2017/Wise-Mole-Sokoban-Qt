@@ -17,3 +17,4 @@
 * qt6-httpserver-dev
 * qt6-websockets-dev
 * libqt6sql6-mysql
+* [mariadb-server](https://mariadb.org/download/?t=repo-config&d=Debian+12+%22Bookworm%22&v=11.3&r_m=docker_ru)
