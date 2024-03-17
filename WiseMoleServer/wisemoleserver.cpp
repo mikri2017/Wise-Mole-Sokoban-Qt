@@ -91,6 +91,27 @@ void WiseMoleServer::run()
         return j_resp;
     });
 
+    srv.route("/chg_user_pass", QHttpServerRequest::Method::Post, [] (const QHttpServerRequest &req) {
+        // Расшифровка полученных параметров запроса
+        QUrlQuery uq = QUrlQuery(req.body());
+
+        QJsonObject j_resp;
+        j_resp.insert("res", "ok");
+
+        if(uq.hasQueryItem("token") && uq.hasQueryItem("old_password") && uq.hasQueryItem("password")) {
+            QString info_msg = "Запрошена смена пароля " + uq.queryItemValue("token") \
+                + ", старый пароль " + uq.queryItemValue("old_password") + ", новый пароль " \
+                + uq.queryItemValue("password");
+
+            j_resp.insert("msg", info_msg);
+        } else {
+            QString err_msg = "Отcутствуют необходимые параметры!";
+            j_resp.insert("msg", err_msg);
+        }
+
+        return j_resp;
+    });
+
     srv.route("/list_levels", QHttpServerRequest::Method::Get, [] () {
         QJsonObject j_resp;
         j_resp.insert("res", "ok");
