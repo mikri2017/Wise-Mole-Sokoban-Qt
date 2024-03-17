@@ -4,6 +4,8 @@
 #include <QCoreApplication>
 #include <QtNetwork/QTcpServer>
 #include <QtHttpServer/QHttpServer>
+#include "usermgr.h"
+#include "levelmgr.h"
 
 class WiseMoleServer
 {
@@ -18,6 +20,8 @@ private:
     int port = 0;
     QString settings_path = "settings.ini";
     QHttpServer srv;
+    UserMgr usr_mgr;
+    LevelMgr lvl_mgr;
 
     unsigned int loadSettings();
     void genSettings();
