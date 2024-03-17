@@ -5,6 +5,11 @@ LevelMgr::LevelMgr()
 
 }
 
+void LevelMgr::set_my_db(QSqlDatabase &db)
+{
+    my_db = db;
+}
+
 QMap<int, QString> LevelMgr::get_name_list()
 {
     return QMap<int, QString>();

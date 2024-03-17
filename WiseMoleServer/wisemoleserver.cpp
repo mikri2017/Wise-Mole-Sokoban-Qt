@@ -37,6 +37,17 @@ void WiseMoleServer::run()
         exit(EXIT_FAILURE);
     }
 
+    // Проводим настройки подкючения в классы управления
+    my_db = QSqlDatabase::addDatabase("QMYSQL");
+
+    my_db.setHostName(db_host);
+    my_db.setUserName(db_user);
+    my_db.setPassword(db_pass);
+    my_db.setDatabaseName(db_base);
+
+    usr_mgr.set_my_db(my_db);
+    lvl_mgr.set_my_db(my_db);
+
     srv.route("/", [] () {
         QString info_msg = "<html>"
                 "<head>"
@@ -207,18 +218,21 @@ unsigned int WiseMoleServer::loadSettings()
 {
     if(QFile::exists(settings_path)) {
         QSettings qsett(settings_path, QSettings::NativeFormat);
-        host = qsett.value("host", "0.0.0.0").toString();
-        port = qsett.value("port", 0).toInt();
+        host = qsett.value("server/host", "0.0.0.0").toString();
+        port = qsett.value("server/port", 0).toInt();
 
-        if(port > 0)
-        {
-            return 0;
-        }
-        else
-        {
+        if(port <= 0) {
             qCritical() << "Задайте корректный порт подключения в настройках!";
             return 2;
         }
+
+        // Загружаем настройки подключения к БД
+        db_host = qsett.value("mariadb/host", "127.0.0.1").toString();
+        db_user = qsett.value("mariadb/user", "").toString();
+        db_pass = qsett.value("mariadb/pass", "").toString();
+        db_base = qsett.value("mariadb/base", "").toString();
+
+        return 0;
     }
 
     return 1;
@@ -228,6 +242,14 @@ void WiseMoleServer::genSettings()
 {
     QSettings qsett(settings_path, QSettings::NativeFormat);
     qsett.clear();
-    qsett.setValue("host", "0.0.0.0");
-    qsett.setValue("port", 0);
+
+    // Основные
+    qsett.setValue("server/host", "0.0.0.0");
+    qsett.setValue("server/port", 0);
+
+    // Параметры подключения к MariaDb
+    qsett.setValue("mariadb/host", "127.0.0.1");
+    qsett.setValue("mariadb/user", "user");
+    qsett.setValue("mariadb/pass", "pass");
+    qsett.setValue("mariadb/base", "base");
 }

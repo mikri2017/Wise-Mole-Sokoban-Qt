@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QtNetwork/QTcpServer>
 #include <QtHttpServer/QHttpServer>
+#include <QtSql/QSqlDatabase>
 #include "usermgr.h"
 #include "levelmgr.h"
 
@@ -16,9 +17,18 @@ public:
 
 private:
     const QString version = "0.1";
+
+    // Путь к файлу настроек
+    QString settings_path = "settings.ini";
+
+    // Настройки работы сервера
     QString host = "0.0.0.0";
     int port = 0;
-    QString settings_path = "settings.ini";
+
+    // Настройки подключения к БД
+    QSqlDatabase my_db;
+    QString db_host = "", db_user = "", db_pass = "", db_base = "";
+
     QHttpServer srv;
     UserMgr usr_mgr;
     LevelMgr lvl_mgr;

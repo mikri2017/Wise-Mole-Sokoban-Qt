@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QtSql/QSqlDatabase>
 
 struct LevelData
 {
@@ -16,12 +17,14 @@ class LevelMgr
 {
 public:
     LevelMgr();
+    void set_my_db(QSqlDatabase &db);
     QMap<int, QString> get_name_list();
     LevelData get_level(int lvl_id);
     bool save_level(int user_id, QString name, QString data);
     QString get_last_error();
 
 private:
+    QSqlDatabase my_db;
     QString err_msg = "";
 };
 
