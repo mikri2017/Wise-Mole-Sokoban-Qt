@@ -35,16 +35,6 @@ void WiseMoleServer::run()
         exit(EXIT_FAILURE);
     }
 
-    // Проверим папку с уровнями и создадим ее при отсутсвии
-    if(!QDir(levels_path).exists())
-    {
-        if(!QDir().mkdir(levels_path))
-        {
-            qCritical() << "Ошибка создания каталога " << levels_path;
-            exit(EXIT_FAILURE);
-        }
-    }
-
     qDebug() << "Сервер доступен с IP " << host
              << ", занимает порт " << port;
 }

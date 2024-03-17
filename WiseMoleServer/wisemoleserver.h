@@ -2,6 +2,7 @@
 #define WISEMOLESERVER_H
 
 #include <QCoreApplication>
+#include <QtNetwork/QTcpServer>
 
 class WiseMoleServer
 {
@@ -15,8 +16,6 @@ private:
     QString host = "0.0.0.0";
     int port = 0;
     QString settings_path = "settings.ini";
-    QString levels_path = "levels";
-    QList<QString> l_levels = {};
 
     unsigned int loadSettings();
     void genSettings();
