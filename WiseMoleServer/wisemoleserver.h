@@ -28,6 +28,7 @@ private:
     // Настройки подключения к БД
     QSqlDatabase my_db;
     QString db_host = "", db_user = "", db_pass = "", db_base = "";
+    QString user_salt = "";
 
     QHttpServer srv;
     UserMgr usr_mgr;

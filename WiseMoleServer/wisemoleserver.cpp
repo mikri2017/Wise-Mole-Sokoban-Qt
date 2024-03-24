@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QUuid>
 
 WiseMoleServer::WiseMoleServer()
 {
@@ -232,6 +233,13 @@ unsigned int WiseMoleServer::loadSettings()
         db_pass = qsett.value("mariadb/pass", "").toString();
         db_base = qsett.value("mariadb/base", "").toString();
 
+        // Получаем соль для хэширования пароля пользователя
+        user_salt = qsett.value("users/salt", "").toString();
+        if(user_salt == "") {
+            qCritical() << "Задайте параметр salt в блоке users!";
+            return 2;
+        }
+
         return 0;
     }
 
@@ -252,4 +260,8 @@ void WiseMoleServer::genSettings()
     qsett.setValue("mariadb/user", "user");
     qsett.setValue("mariadb/pass", "pass");
     qsett.setValue("mariadb/base", "base");
+
+    // Соль под пароли пользователей
+    QUuid salt_gen = QUuid();
+    qsett.setValue("users/salt", salt_gen.createUuid().toString());
 }
