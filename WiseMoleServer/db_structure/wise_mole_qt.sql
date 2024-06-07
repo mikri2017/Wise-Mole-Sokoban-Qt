@@ -1,8 +1,9 @@
--- MariaDB dump 10.19-11.2.3-MariaDB, for debian-linux-gnu (x86_64)
+/*!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19-11.4.2-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: wise_mole_qt
 -- ------------------------------------------------------
--- Server version	11.2.3-MariaDB-1:11.2.3+maria~deb12
+-- Server version	11.4.2-MariaDB-deb12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -13,15 +14,7 @@
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Current Database: `wise_mole_qt`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `wise_mole_qt` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-
-USE `wise_mole_qt`;
+/*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
 
 --
 -- Table structure for table `levels`
@@ -40,6 +33,15 @@ CREATE TABLE `levels` (
   CONSTRAINT `levels_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `levels`
+--
+
+LOCK TABLES `levels` WRITE;
+/*!40000 ALTER TABLE `levels` DISABLE KEYS */;
+/*!40000 ALTER TABLE `levels` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -61,6 +63,15 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping routines for database 'wise_mole_qt'
 --
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
@@ -71,10 +82,9 @@ CREATE TABLE `users` (
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `user_add`(in login varchar(50), in pass_hash varchar(100)
-) RETURNS int(11)
+CREATE DEFINER=`root`@`localhost` FUNCTION `user_add`(in login varchar(50), in pass_hash varchar(100)) RETURNS int(11)
 BEGIN
 	declare cnt int;
 
@@ -113,12 +123,11 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `user_auth`(in login varchar(50), in pass_hash varchar(100), in token varchar(100)
-) RETURNS int(11)
+CREATE DEFINER=`root`@`localhost` FUNCTION `user_auth`(in login varchar(50), in pass_hash varchar(100), in token varchar(100)) RETURNS int(11)
 BEGIN
-    declare user_id int unsigned;
+	declare user_id int unsigned;
 
     select
         u.id
@@ -152,12 +161,11 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `user_chg_pass`(in token varchar(100), in pass_hash_old varchar(100), in pass_hash_new varchar(100)
-) RETURNS int(11)
+CREATE DEFINER=`root`@`localhost` FUNCTION `user_chg_pass`(in token varchar(100), in pass_hash_old varchar(100), in pass_hash_new varchar(100)) RETURNS int(11)
 BEGIN
-    declare user_id int unsigned;
+	declare user_id int unsigned;
 
     select
         u.id
@@ -192,6 +200,6 @@ DELIMITER ;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-03-24 21:14:06
+-- Dump completed on 2024-06-07 20:19:26
